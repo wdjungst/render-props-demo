@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Temp from './Temp'
+import C from './C'
+import K from './K'
 
-class App extends Component {
+class App extends React.Component {
+  state = { type: 'c' }
+
+  toggleType = () => {
+    this.setState( state => ({ type: state.type === 'c' ? 'k' : 'c' }) )
+  }
+
   render() {
+    const { type } = this.state
+    const Converter = type === 'c' ? C : K
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <>
+        <button onClick={this.toggleType}>
+          Show { type === 'c' ? 'K' : 'C' }
+        </button>
+        <Temp>
+          { (data, feels) => 
+          <>
+            <Converter f={data} feels={feels}/>
+          </>
+          }
+        </Temp>
+      </>
+    )
   }
 }
 
-export default App;
+export default App
